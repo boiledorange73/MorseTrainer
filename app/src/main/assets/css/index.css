@@ -1,0 +1,31 @@
+button#START,
+button#STOP {
+  min-width: 2cm;
+  min-height: 2cm;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+button#START {
+  background: #060;
+  color: #fff;
+}
+
+button#START:disabled {
+  background: #363;
+  color: #999;
+}
+
+button#STOP {
+  background: #600;
+  color: #fff;
+}
+
+button#STOP:disabled {
+  background: #633;
+  color: #999;
+}
+
+.inum {
+  width: 6em;
+}
