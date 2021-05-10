@@ -46,13 +46,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         val pm:PowerManager = this.getSystemService(Context.POWER_SERVICE) as PowerManager
-        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "morse:wakelock")
+        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "morse:wakelock")
         mAcquireWake = false
 
 
         mHandler = Handler()
         supportActionBar!!.hide()
-        mHandler?.post(Runnable { this@MainActivity.setup() })
+        mHandler?.post({ this@MainActivity.setup() })
     }
     // Environment.getExternalStorageDirectory().getAbsolutePath();
     fun setup() {
@@ -77,9 +77,7 @@ class MainActivity : AppCompatActivity() {
                         .setTitle(R.string.app_name)
                         .setPositiveButton(
                             android.R.string.ok,
-                            DialogInterface.OnClickListener { dialog, which ->
-                                result?.confirm()
-                            }
+                            { dialog, which -> result?.confirm() }
                         )
                         .setMessage(message)
                         .show()

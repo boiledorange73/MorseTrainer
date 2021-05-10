@@ -19,25 +19,23 @@ class WebAppInterface {
     fun requestScenarioList(filename: String):Boolean {
         val f: File? = mActivity.getExternalFilesDir(null)
         val path:String? = if(f != null) f.absolutePath + File.separator + filename else null
-        var str_json:String ? = null
+        var sJson:String ? = null
         if( path != null ) {
             try {
                 val reader = FileReader(path)
-                val str_raw = reader.readText()
-                val obj = JSONArray(str_raw)
-                str_json = obj.toString()
+                val sRaw = reader.readText()
+                val obj = JSONArray(sRaw)
+                sJson = obj.toString()
             }
             catch (e: Exception) {
                 e.printStackTrace()
             }
         }
         val webView = mActivity.findViewById<WebView>(R.id.web)
-        mHandler.post(
-            Runnable {
-                webView.loadUrl("javascript:onScenarioListGot(" + (if (str_json != null) str_json else "null") + ")")
-            }
-        )
-        return str_json != null
+        mHandler.post({
+            webView.loadUrl("javascript:onScenarioListGot(" + (if (sJson != null) sJson else "null") + ")")
+        })
+        return sJson != null
     }
     @JavascriptInterface
     fun acquireWake() {

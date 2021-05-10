@@ -141,6 +141,9 @@ function onScenarioListGot(props) {
   var callback = _OnScenarioListGot_Callback;
   _OnScenarioListGot_Callback = null;
   if( callback ) {
+    if( props == null ) {
+      props = getScenarioList(); // gets default if null
+    }
     callback(props);
   }
 }
@@ -217,144 +220,246 @@ function releaseWake() {
 function getScenarioList() {
 
   return [
-    {
-      "id": "A-G",
-      "lang": "C",
-      "name": "A-G",
-      "randam": false,
-      "phrases": [
-        "A","B","C","D","E","F","G"
-      ]
-    },
-    {
-      "id": "H-N",
-      "lang": "C",
-      "name": "H-N",
-      "randam": false,
-      "phrases": [
-        "H","I","J","K","L","M","N"
-      ]
-    },
-    {
-      "id": "O-T",
-      "lang": "C",
-      "name": "O-T",
-      "randam": false,
-      "phrases": [
-        "O","P","Q","R","S","T"
-      ]
-    },
-    {
-      "id": "U-Z",
-      "lang": "C",
-      "name": "U-Z",
-      "randam": false,
-      "phrases": [
-        "U","V","W","X","Y","Z"
-      ]
-    },
-    {
-      "id": "A-Z0-9",
-      "lang": "C",
-      "name": "A-Z",
-      "randam": false,
-      "phrases": [
-        "A","B","C","D","E","F","G",
-        "H","I","J","K","L","M","N",
-        "O","P","Q","R","S","T",
-        "U","V","W","X","Y","Z",
-        "1","2","3","4","5","6","7","8","9","0"
-      ]
-    },
-    {
-      "id": "ア行",
-      "lang": "ja",
-      "name": "ア行",
-      "randam": false,
-      "phrases": [
-        "ア","イ","ウ","エ","オ"
-      ]
-    },
-    {
-      "id": "カ行",
-      "lang": "ja",
-      "name": "カ行",
-      "randam": false,
-      "phrases": [
-        "カ","キ","ク","ケ","コ"
-      ]
-    },
-    {
-      "id": "サ行",
-      "lang": "ja",
-      "name": "サ行",
-      "randam": false,
-      "phrases": [
-        "サ","シ","ス","セ","ソ"
-      ]
-    },
-    {
-      "id": "タ行",
-      "lang": "ja",
-      "name": "タ行",
-      "randam": false,
-      "phrases": [
-        "タ","チ","ツ","テ","ト"
-      ]
-    },
-    {
-      "id": "ナ行",
-      "lang": "ja",
-      "name": "ナ行",
-      "randam": false,
-      "phrases": [
-        "ナ","ニ","ヌ","ネ","ノ"
-      ]
-    },
-    {
-      "id": "ハ行",
-      "lang": "ja",
-      "name": "ハ行",
-      "randam": false,
-      "phrases": [
-        "ハ","ヒ","フ","ヘ","ホ"
-      ]
-    },
-    {
-      "id": "マ行",
-      "lang": "ja",
-      "name": "マ行",
-      "randam": false,
-      "phrases": [
-        "マ","ミ","ム","メ","モ"
-      ]
-    },
-    {
-      "id": "ヤ行",
-      "lang": "ja",
-      "name": "ヤ行",
-      "randam": false,
-      "phrases": [
-        "ヤ","ユ","ヨ"
-      ]
-    },
-    {
-      "id": "ラ行",
-      "lang": "ja",
-      "name": "ラ行",
-      "randam": false,
-      "phrases": [
-        "ラ","リ","ル","レ","ロ"
-      ]
-    },
-    {
-      "id": "ワ行",
-      "lang": "ja",
-      "name": "ワ行",
-      "randam": false,
-      "phrases": [
-        "ワ","ヰ","ヱ","ヲ"
-      ]
-    },
+     {
+       "id": "A-G",
+       "lang": "C",
+       "name": "A-G",
+       "randam": false,
+       "phrases": [
+         "A","B","C","D","E","F","G"
+       ]
+     },
+     {
+       "id": "H-N",
+       "lang": "C",
+       "name": "H-N",
+       "randam": false,
+       "phrases": [
+         "H","I","J","K","L","M","N"
+       ]
+     },
+     {
+       "id": "O-T",
+       "lang": "C",
+       "name": "O-T",
+       "randam": false,
+       "phrases": [
+         "O","P","Q","R","S","T"
+       ]
+     },
+     {
+       "id": "U-Z",
+       "lang": "C",
+       "name": "U-Z",
+       "randam": false,
+       "phrases": [
+         "U","V","W","X","Y","Z"
+       ]
+     },
+     {
+       "id": "A-Z",
+       "lang": "C",
+       "name": "A-Z (Alphabet)",
+       "randam": false,
+       "phrases": [
+         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+       ]
+     },
+     {
+       "id": "0-9",
+       "lang": "C",
+       "name": "0-9",
+       "randam": false,
+       "phrases": [
+         "1","2","3","4","5","6","7","8","9","0"
+       ]
+     },
+     {
+       "id": "A-Z 0-9",
+       "lang": "C",
+       "name": "A-Z 0-9 (Alphabet & Number)",
+       "randam": false,
+       "phrases": [
+         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+         "1","2","3","4","5","6","7","8","9","0"
+       ]
+     },
+     {
+       "id": "ア行",
+       "lang": "ja",
+       "name": "ア行",
+       "randam": false,
+       "phrases": [
+         "ア","イ","ウ","エ","オ"
+       ]
+     },
+     {
+       "id": "カ行",
+       "lang": "ja",
+       "name": "カ行",
+       "randam": false,
+       "phrases": [
+         "カ","キ","ク","ケ","コ"
+       ]
+     },
+     {
+       "id": "サ行",
+       "lang": "ja",
+       "name": "サ行",
+       "randam": false,
+       "phrases": [
+         "サ","シ","ス","セ","ソ"
+       ]
+     },
+     {
+       "id": "タ行",
+       "lang": "ja",
+       "name": "タ行",
+       "randam": false,
+       "phrases": [
+         "タ","チ","ツ","テ","ト"
+       ]
+     },
+     {
+       "id": "ナ行",
+       "lang": "ja",
+       "name": "ナ行",
+       "randam": false,
+       "phrases": [
+         "ナ","ニ","ヌ","ネ","ノ"
+       ]
+     },
+     {
+       "id": "ハ行",
+       "lang": "ja",
+       "name": "ハ行",
+       "randam": false,
+       "phrases": [
+         "ハ","ヒ","フ","ヘ","ホ"
+       ]
+     },
+     {
+       "id": "パ行",
+       "lang": "ja",
+       "name": "パ行",
+       "randam": false,
+       "phrases": [
+         "パ","ピ","プ","ペ","ポ"
+       ]
+     },
+     {
+       "id": "マ行",
+       "lang": "ja",
+       "name": "マ行",
+       "randam": false,
+       "phrases": [
+         "マ","ミ","ム","メ","モ"
+       ]
+     },
+     {
+       "id": "ヤ行",
+       "lang": "ja",
+       "name": "ヤ行",
+       "randam": false,
+       "phrases": [
+         "ヤ","ユ","ヨ"
+       ]
+     },
+     {
+       "id": "ラ行",
+       "lang": "ja",
+       "name": "ラ行",
+       "randam": false,
+       "phrases": [
+         "ラ","リ","ル","レ","ロ"
+       ]
+     },
+     {
+       "id": "ワ行ン",
+       "lang": "ja",
+       "name": "ワ行ン",
+       "randam": false,
+       "phrases": [
+         "ワ","ヰ","ヱ","ヲ","ン"
+       ]
+     },
+     {
+       "id": "ー、¶（）",
+       "lang": "ja",
+       "name": "ー、。（）",
+       "randam": false,
+       "phrases": [
+         "ー","、","¶","（","）"
+       ]
+     },
+     {
+       "id": "ア段",
+       "lang": "ja",
+       "name": "ア段",
+       "randam": false,
+       "phrases": [
+         "ア","カ","ガ","サ","ザ","タ","ダ","ナ","ハ","バ","パ","マ","ヤ","ラ","ワ"
+       ]
+     },
+     {
+       "id": "イ段",
+       "lang": "ja",
+       "name": "イ段",
+       "randam": false,
+       "phrases": [
+         "イ","キ","ギ","シ","ジ","チ","ヂ","ニ","ヒ","ビ","ピ","ミ","リ","ヰ"
+       ]
+     },
+     {
+       "id": "ウ段",
+       "lang": "ja",
+       "name": "ウ段+ン",
+       "randam": false,
+       "phrases": [
+         "ウ","ク","グ","ス","ズ","ツ","ヅ","ヌ","フ","ブ","プ","ム","ユ","ル","ン"
+       ]
+     },
+     {
+       "id": "エ段",
+       "lang": "ja",
+       "name": "エ段",
+       "randam": false,
+       "phrases": [
+         "エ","ケ","ゲ","セ","ゼ","テ","デ","ネ","ヘ","ベ","ペ","メ","レ","ヱ"
+       ]
+     },
+     {
+       "id": "オ段",
+       "lang": "ja",
+       "name": "オ段",
+       "randam": false,
+       "phrases": [
+         "オ","コ","ゴ","ソ","ゾ","ト","ド","ノ","ホ","ボ","ポ","モ","ヨ","ロ","ヲ"
+       ]
+     },
+     {
+       "id": "ア-ン",
+       "lang": "ja",
+       "name": "ア-ン (和文全体)",
+       "randam": false,
+       "phrases": [
+         "ア","イ","ウ","エ","オ",
+         "カ","キ","ク","ケ","コ",
+         "ガ","ギ","グ","ゲ","ゴ",
+         "サ","シ","ス","セ","ソ",
+         "ザ","ジ","ズ","ゼ","ゾ",
+         "タ","チ","ツ","テ","ト",
+         "ダ","ヂ","ヅ","デ","ド",
+         "ナ","ニ","ヌ","ネ","ノ",
+         "ハ","ヒ","フ","ヘ","ホ",
+         "バ","ビ","ブ","ベ","ボ",
+         "パ","ピ","プ","ペ","ポ",
+         "マ","ミ","ム","メ","モ",
+         "ヤ","ユ","ヨ",
+         "ラ","リ","ル","レ","ロ",
+         "ワ","ヰ","ヱ","ヲ","ン",
+         "ー","、","¶","（","）"
+       ]
+     }
   ];
 }
