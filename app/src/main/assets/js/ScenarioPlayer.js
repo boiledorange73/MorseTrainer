@@ -70,6 +70,9 @@
   M.ScenarioPlayer.prototype.countUpRepeat = function countUpRepeat() {
     if( this._repeat > 0 ) {
       this._repeat_count++;
+      if( this._repeat_count >= this._repeat ) {
+        this.finishMorse();
+      }
     }
     return this;
   };
