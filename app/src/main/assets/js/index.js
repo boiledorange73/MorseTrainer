@@ -147,11 +147,19 @@ function onScenarioListGot(props) {
 
 function loadScenarioList(callback) {
   if( window.cordova ) {
-    dirpath = cordova.file.externalApplicationStorageDirectory;
+    // Cordova
+    loadScenarioList_Cordova(callback);
   }
   else if( window.Android ){
+    // Android app
     _OnScenarioListGot_Callback = callback;
     Android.requestScenarioList("scenarios.json");
+  }
+  else {
+    // Browser
+    if( callback ) {
+      callback(null);
+    }
   }
 }
 
