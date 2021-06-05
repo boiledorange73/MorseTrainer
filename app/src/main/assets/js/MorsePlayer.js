@@ -66,7 +66,7 @@
   M.MorsePlayer.prototype.onBeepFinished = function onBeepFinished(ev) {
     var need_start = this._status ==  M.MorsePlayer.ST_MORSE_RESTARTING;
     this._status = M.MorsePlayer.ST_MORSE_NONE;
-    this.fire({"type": "morsefinished", "caller": this});
+    this.fire({"type": "morsefinished", "tag": ev.tag, "caller": this});
     if( need_start ) {
       this.start();
     }
@@ -84,7 +84,7 @@
     return this._characters_per_minute;
   };
 
-  M.MorsePlayer.prototype.pushText = function pushText(text) {
+    M.MorsePlayer.prototype.pushText = function pushText(text) {
     var len_text = text != null ? text.length : 0;
     for( var n_text = 0; n_text < len_text; n_text++ ) {
       var ch = text[n_text];
@@ -184,7 +184,7 @@
     }(this), 1);
   };
 
-  M.MorsePlayer.prototype.finishMorse = function finishMorse() {
+  M.MorsePlayer.prototype.finishMorse = function finishMorse(tag) {
     if( this._morse_status == M.MorsePlayer.ST_MORSE_STARTING ) {
       this._morse_status = M.MorsePlayer.ST_MORSE_UNSARTING;
       return;
@@ -202,7 +202,7 @@
     this._morse_status = 0;
     this._morse_interval_id = null;
     this._morse_queue = [];
-    this.finish();
+    this.finish(tag);
   };
 
   M.MorsePlayer.prototype.getPhrase = function getPhrase() {
@@ -228,7 +228,7 @@
           this.pushText(ev.phrase);
         }
         else {
-          this.finishMorse();
+          this.finishMorse("morseempty");
         }
       }
       return;

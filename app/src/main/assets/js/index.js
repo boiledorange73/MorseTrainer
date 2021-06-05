@@ -80,7 +80,7 @@ function onScenarioListLoaded(list) {
     e_stop.disabled = false;
   };
 
-  var fn_finished = function() {
+  var fn_finished = function(ev) {
     // may called 2 times (by finish() and tick())
     e_start.disabled = false;
     e_stop.disabled = true;

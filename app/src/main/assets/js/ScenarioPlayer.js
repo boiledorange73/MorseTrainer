@@ -25,7 +25,7 @@
   };
 
   M.ScenarioPlayer.prototype.onMorseFinished = function onMorseFinished(ev) {
-    this.fire({"type": "scenariofinished", "caller": this});
+    this.fire({"type": "scenariofinished", "tag": ev.tag, "caller": this});
   };
 
   M.ScenarioPlayer.prototype.onMorseEmpty = function onMorseEmpty(ev) {
@@ -71,7 +71,7 @@
     if( this._repeat > 0 ) {
       this._repeat_count++;
       if( this._repeat_count >= this._repeat ) {
-        this.finishMorse();
+        this.finishMorse("scenariocounted");
       }
     }
     return this;
@@ -121,6 +121,12 @@
     return r;
   };
 
+  M.ScenarioPlayer.prototype.pushFinalCode = function pushFinalCode() {
+    var lang = this.morseLang();
+    this.scenario(null);
+    this.pushCode(morse.table[lang][""]);
+  };
+
   M.ScenarioPlayer.prototype.startScenario = function startScenario() {
     this.morseLang(this._scenario && this._scenario.lang ? this._scenario.lang: "C");
     this._repeat_count = 0;
@@ -129,8 +135,8 @@
     this.startMorse();
   };
 
-  M.ScenarioPlayer.prototype.finishScenario = function finishScenario() {
-    this.finishMorse();
+  M.ScenarioPlayer.prototype.finishScenario = function finishScenario(tag) {
+    this.finishMorse(tag);
   };
 
 })((this || 0).self || global);

@@ -111,7 +111,7 @@
     }
   };
 
-  M.BeepPlayer.prototype.finish = function finish() {
+  M.BeepPlayer.prototype.finish = function finish(tag) {
     if( this._status == M.BeepPlayer.ST_STARTING ) {
       this._status = M.BeepPlayer.ST_UNSTARTING;
       return;
@@ -127,7 +127,7 @@
     this.gainNode = null;
     var needed_restart = this._status == M.BeepPlayer.ST_RESTARTING;
     this._status = M.BeepPlayer.ST_NONE;
-    this.fire({"type": "finished", "caller": this});
+    this.fire({"type": "finished", "tag": tag, "caller": this});
     if( needed_restart ) {
       this.start();
     }
