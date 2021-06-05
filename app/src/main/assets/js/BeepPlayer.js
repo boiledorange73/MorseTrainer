@@ -97,6 +97,18 @@
       this.finish();
       return;
     }
+    // beep-and-finish mode (ms required)
+    if( ms > 0 ) {
+      this.beepOn();
+      setTimeout(
+        function(_this){
+          return function() {
+            _this.finish();
+          }
+        }(this),
+        ms
+      );
+    }
   };
 
   M.BeepPlayer.prototype.finish = function finish() {
