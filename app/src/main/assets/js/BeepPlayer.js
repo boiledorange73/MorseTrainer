@@ -9,7 +9,9 @@
   M.BeepPlayer = function BeepPlayer(settings) {
     settings = settings ? settings : {};
     this._volume = settings.volume > 0 ? settings.volume : 1;
+    this._frequency = settings.frequency > 0 ? settings.frequency : 440;
     this._status = M.BeepPlayer.ST_NONE;
+    this._event = {};
   };
 
   M.BeepPlayer.ST_NONE = 0;
@@ -68,7 +70,7 @@
     return this;
   };
 
-  M.BeepPlayer.prototype.start = function start() {
+  M.BeepPlayer.prototype.start = function start(ms) {
     if( this._status == M.BeepPlayer.ST_FINISHING ) {
       this._status = M.BeepPlayer.ST_RESTARTING;
       return;
@@ -85,7 +87,7 @@
 //    this.gainNode.gain.maxValue = this.volume();
     this.oscillator = this.audioCtx.createOscillator();
     this.oscillator.type = 'sine'; // 'square'
-    this.oscillator.frequency.value = 440; // value in hertz
+    this.oscillator.frequency.value = this._frequency; // value in hertz
     this.oscillator.connect(this.gainNode);
     this.oscillator.start();
     var need_finish = this._status ==  M.BeepPlayer.ST_UNSTARTING;
@@ -93,6 +95,7 @@
     this.fire({"type": "started", "caller": this});
     if( need_finish ) {
       this.finish();
+      return;
     }
   };
 

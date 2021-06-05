@@ -37,6 +37,9 @@ function onScenarioListLoaded(list) {
     e_vol.value = mynz(localStorage.getItem("e_vol"), "10");
     e_vol.onchange = function() {
       localStorage.setItem("e_vol",e_vol.value);
+      if( player ) {
+        player.volume(parseFloat(e_vol.value)*0.01);
+      }
     };
     e_times.value = mynz(localStorage.getItem("e_times"), "-1");
     e_times.onchange = function() {
@@ -49,6 +52,9 @@ function onScenarioListLoaded(list) {
     e_speed.value = mynz(localStorage.getItem("e_speed"), "100");
     e_speed.onchange = function() {
       localStorage.setItem("e_speed",e_speed.value);
+      if( player ) {
+        player.charactersPerMinute(parseInt(e_speed.value));
+      }
     };
     e_scenario.value = localStorage.getItem("e_scenario");
     e_scenario.onchange = function() {
@@ -96,7 +102,7 @@ function onScenarioListLoaded(list) {
     // sets values
     player.repeat(e_times.value);
     player.random(e_random.checked);
-    player.charactersPerMinute(e_speed.value);
+    player.charactersPerMinute(parseInt(e_speed.value));
     player.volume(parseFloat(e_vol.value) * 0.01);
     player.scenario(scenario);
     player.startScenario();
