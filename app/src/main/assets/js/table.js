@@ -129,8 +129,8 @@
     "）": "*-**-*"
   };
 
-  M.C = Object.assign(c_number, c_symbol, c_alpha);
-  M.ja = Object.assign(c_number, ja_kana, ja_symbol);
+  M.C = Object.assign(c_number, c_symbol, c_alpha, {"\\": "*-*-*"});
+  M.ja = Object.assign(c_number, ja_kana, ja_symbol, {"\\": "***-*"});
 
 })((this || 0).self || global);
   

@@ -63,28 +63,12 @@
     return !!this._repeat;
   };
 
-  M.ScenarioPlayer.prototype.isRepeatable = function isRepeatable() {
-    return !(this._repeat > 0) || this._repeat_count < this._repeat;
-  };
-
-  M.ScenarioPlayer.prototype.countUpRepeat = function countUpRepeat() {
-    if( this._repeat > 0 ) {
-      this._repeat_count++;
-      if( this._repeat_count >= this._repeat ) {
-        this.finishMorse("scenariocounted");
-      }
-    }
-    return this;
-  };
-
-
   M.ScenarioPlayer.prototype.clearQueue = function clearQueue() {
     this._queue = [];
     this._last = null;
   };
 
   M.ScenarioPlayer.prototype.initPhrase = function initPhrase() {
-    this.countUpRepeat();
     // makes rands
     var len = this._scenario && this._scenario.phrases ? this._scenario.phrases.length : 0;
     if( len > 0 ) {
@@ -110,7 +94,24 @@
   };
 
   M.ScenarioPlayer.prototype.getPhrase = function getPhrase() {
-    if( !(this._queue != null && this._queue.length > 0) && this.isRepeatable() ) {
+    if( this._queue == null || !(this._queue.length > 0) ) {
+      // no data in _queue
+      if( this._repeat > 0 ) {
+        if( this._repeat_count + 1 >= this._repeat ) {
+          if( !this._finalcode ) {
+            // fin
+            this._finalcode = true;
+            return " \\";
+          }
+          else {
+            // fin
+            this.finishMorse("scenariocounted");
+            return null;
+          }
+        }
+        this._repeat_count++;
+      }
+      //
       this.initPhrase();
     }
     if( !(this._queue.length > 0) ) {
@@ -121,15 +122,10 @@
     return r;
   };
 
-  M.ScenarioPlayer.prototype.pushFinalCode = function pushFinalCode() {
-    var lang = this.morseLang();
-    this.scenario(null);
-    this.pushCode(morse.table[lang][""]);
-  };
-
   M.ScenarioPlayer.prototype.startScenario = function startScenario() {
     this.morseLang(this._scenario && this._scenario.lang ? this._scenario.lang: "C");
     this._repeat_count = 0;
+    this._finalcode = false;
     this.initPhrase();
     this.pushText(this.getPhrase());
     this.startMorse();

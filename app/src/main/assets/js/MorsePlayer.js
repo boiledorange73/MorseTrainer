@@ -84,7 +84,7 @@
     return this._characters_per_minute;
   };
 
-    M.MorsePlayer.prototype.pushText = function pushText(text) {
+  M.MorsePlayer.prototype.pushText = function pushText(text) {
     var len_text = text != null ? text.length : 0;
     for( var n_text = 0; n_text < len_text; n_text++ ) {
       var ch = text[n_text];
