@@ -29,3 +29,11 @@ button#STOP:disabled {
 .inum {
   width: 6em;
 }
+
+.inums {
+  width: 4em;
+}
+
+#MINUTESREST {
+  padding-left: 0.5em;
+}

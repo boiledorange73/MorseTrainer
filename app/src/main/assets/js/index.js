@@ -25,10 +25,14 @@ function onScenarioListLoaded(list) {
   var e_click = document.getElementById("CLICK");
   var e_vol = document.getElementById("VOL");
   var e_times = document.getElementById("TIMES");
+  var e_minutes = document.getElementById("MINUTES");
+  var e_minutes_rest = document.getElementById("MINUTESREST");
   var e_random = document.getElementById("RANDOM");
   var e_speed = document.getElementById("SPEED");
   var e_scenario = document.getElementById("SCENARIO");
   var e_clear = document.getElementById("CLEAR");
+
+  var watcher_id = null;
 
   scenarioList = new morse.ScenarioList({"list":list});
 
@@ -44,6 +48,10 @@ function onScenarioListLoaded(list) {
     e_times.value = mynz(localStorage.getItem("e_times"), "-1");
     e_times.onchange = function() {
       localStorage.setItem("e_times",e_times.value);
+    };
+    e_minutes.value = mynz(localStorage.getItem("e_minutes"), "");
+    e_minutes.onchange = function() {
+      localStorage.setItem("e_minutes",e_minutes.value);
     };
     e_random.checked = (localStorage.getItem("e_random") == "true");
     e_random.onchange = function() {
@@ -78,12 +86,34 @@ function onScenarioListLoaded(list) {
   var fn_started = function() {
     e_start.disabled = true;
     e_stop.disabled = false;
+    // start watcher
+    e_minutes_rest.innerText = "";
+    watcher_id = setInterval(function() {
+      var rest = player.getMsRest();
+      if( rest === null ) {
+        e_minutes_rest.innerText = "";
+      }
+      else if( rest > 0 ) {
+        var v = parseInt(rest / 1000);
+        var vs = ("00" + (v % 60)).slice(-2);
+        e_minutes_rest.innerText = (v >= 60 ? parseInt(v/60)+":" : "") + vs;
+      }
+      else {
+        e_minutes_rest.innerText = "FIN";
+      }
+    }, 100);
   };
 
   var fn_finished = function(ev) {
     // may called 2 times (by finish() and tick())
     e_start.disabled = false;
     e_stop.disabled = true;
+    e_minutes_rest.innerText = "";
+    // finishes watcher
+    if( watcher_id !== null ) {
+      clearInterval(watcher_id);
+      watcher_id = null;
+    }
   };
 
   e_start.onclick = function() {
@@ -97,10 +127,13 @@ function onScenarioListLoaded(list) {
     // gets values
     var e_vol = document.getElementById("VOL");
     var e_times = document.getElementById("TIMES");
+    var e_minutes = document.getElementById("MINUTES");
     var e_random = document.getElementById("RANDOM");
     var e_speed = document.getElementById("SPEED");
     // sets values
     player.repeat(e_times.value);
+    var minutes = parseInt(e_minutes.value);
+    player.ms(minutes > 0 ? 60000 * minutes : null); 
     player.random(e_random.checked);
     player.charactersPerMinute(parseInt(e_speed.value));
     player.volume(parseFloat(e_vol.value) * 0.01);
