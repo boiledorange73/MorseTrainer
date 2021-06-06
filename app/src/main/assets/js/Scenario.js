@@ -11,8 +11,10 @@
     this.id = settings.id;
     this.lang = settings.lang;
     this.name = settings.name;
+    this._interval_skip = settings.interval_skip;
     this.phrases = [];
     var len,n;
+    // phrases
     len = settings.phrases ? settings.phrases : 0;
     for( var n = 0; n < len; n++ ) {
       this.phrases[n] = settings.phrases[n];
@@ -26,7 +28,7 @@
       "id": "ja_あ行",
       "lang": "ja",
       "name": "あ行",
-      "randam": false,
+      "interval_skip": 5,
       "phrases": [
         "ア","イ","ウ","エ","オ"
       ]

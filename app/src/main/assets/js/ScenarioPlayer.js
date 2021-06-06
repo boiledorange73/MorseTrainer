@@ -16,6 +16,8 @@
     this._ms_start = null;
     this._ms_end = null;
     this._scenario = null;
+    this._interval = false;
+    this._interval_count = 0;
     this.on("morsestarted", function(_this){return function(ev){_this.onMorseStarted(ev);}}(this));
     this.on("morsefinished", function(_this){return function(ev){_this.onMorseFinished(ev);}}(this));
     this.on("morseempty", function(_this){return function(ev){_this.onMorseEmpty(ev);}}(this));
@@ -64,6 +66,15 @@
       return this;
     }
     return !!this._repeat;
+  };
+
+  M.ScenarioPlayer.prototype.interval = function interval(value) {
+    if( arguments != null && arguments.length >= 1 ) {
+      this._interval = !!value;
+      this._interval_count = 0;
+      return this;
+    }
+    return !!this._interval;
   };
 
   M.ScenarioPlayer.prototype.ms = function ms(value) {
@@ -115,6 +126,7 @@
     if( this._queue == null || !(this._queue.length > 0) ) {
       // no data in _queue
       var fin = false;
+      // checks repeat condition
       if( this._repeat > 0 ) {
         if( this._repeat_count + 1 >= this._repeat ) {
           fin = true;
@@ -123,28 +135,37 @@
           this._repeat_count++;
         }
       }
+      // checks time condition
       if( this._ms_end > 0 &&  (new Date()).getTime() >= this._ms_end ) {
         fin = true;
       }
       if( fin ) {
+        // fin
         if( !this._finalcode ) {
-          // fin
           this._finalcode = true;
           return " \\";
         }
         else {
-          // fin
           this.finishMorse("scenariocounted");
           return null;
         }
       }
-      //
+      // not fin
       this.initPhrase();
     }
+    // checks queue already has something or fetched newly
     if( !(this._queue.length > 0) ) {
       return null;
     }
+    //
     var r = this._queue.shift();
+    if(  this._interval && this._scenario.interval_skip > 0 ) {
+      if( this._interval_count == this._scenario.interval_skip ) {
+        r = " " + r;
+        this._interval_count = 0;
+      }
+      this._interval_count++;
+    }
     this._last = r;
     return r;
   };
@@ -153,6 +174,7 @@
     this.morseLang(this._scenario && this._scenario.lang ? this._scenario.lang: "C");
     this._repeat_count = 0;
     this._ms_end = this._ms > 0 ? (new Date()).getTime() + this._ms : null;
+    this._interval_count = 0;
     this._finalcode = false;
     this.initPhrase();
     this.pushText(this.getPhrase());

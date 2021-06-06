@@ -28,6 +28,7 @@ function onScenarioListLoaded(list) {
   var e_minutes = document.getElementById("MINUTES");
   var e_minutes_rest = document.getElementById("MINUTESREST");
   var e_random = document.getElementById("RANDOM");
+  var e_interval = document.getElementById("INTERVAL");
   var e_speed = document.getElementById("SPEED");
   var e_scenario = document.getElementById("SCENARIO");
   var e_clear = document.getElementById("CLEAR");
@@ -56,6 +57,13 @@ function onScenarioListLoaded(list) {
     e_random.checked = (localStorage.getItem("e_random") == "true");
     e_random.onchange = function() {
       localStorage.setItem("e_random",e_random.checked ? "true" : "false");
+    };
+    e_interval.checked = (localStorage.getItem("e_interval") == "true");
+    e_interval.onchange = function() {
+      localStorage.setItem("e_interval",e_interval.checked ? "true" : "false");
+      if( player ) {
+        player.interval(e_interval.checked);
+      }
     };
     e_speed.value = mynz(localStorage.getItem("e_speed"), "100");
     e_speed.onchange = function() {
@@ -129,12 +137,14 @@ function onScenarioListLoaded(list) {
     var e_times = document.getElementById("TIMES");
     var e_minutes = document.getElementById("MINUTES");
     var e_random = document.getElementById("RANDOM");
+    var e_interval = document.getElementById("INTERVAL");
     var e_speed = document.getElementById("SPEED");
     // sets values
     player.repeat(e_times.value);
     var minutes = parseInt(e_minutes.value);
     player.ms(minutes > 0 ? 60000 * minutes : null); 
     player.random(e_random.checked);
+    player.interval(e_interval.checked);
     player.charactersPerMinute(parseInt(e_speed.value));
     player.volume(parseFloat(e_vol.value) * 0.01);
     player.scenario(scenario);
@@ -271,7 +281,7 @@ function getScenarioList() {
        "id": "A-G",
        "lang": "C",
        "name": "A-G",
-       "randam": false,
+       "interval_skip": 7,
        "phrases": [
          "A","B","C","D","E","F","G"
        ]
@@ -280,7 +290,7 @@ function getScenarioList() {
        "id": "H-N",
        "lang": "C",
        "name": "H-N",
-       "randam": false,
+       "interval_skip": 7,
        "phrases": [
          "H","I","J","K","L","M","N"
        ]
@@ -289,7 +299,7 @@ function getScenarioList() {
        "id": "O-T",
        "lang": "C",
        "name": "O-T",
-       "randam": false,
+       "interval_skip": 6,
        "phrases": [
          "O","P","Q","R","S","T"
        ]
@@ -298,7 +308,7 @@ function getScenarioList() {
        "id": "U-Z",
        "lang": "C",
        "name": "U-Z",
-       "randam": false,
+       "interval_skip": 6,
        "phrases": [
          "U","V","W","X","Y","Z"
        ]
@@ -307,7 +317,7 @@ function getScenarioList() {
        "id": "A-Z",
        "lang": "C",
        "name": "A-Z (Alphabet)",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
        ]
@@ -317,6 +327,7 @@ function getScenarioList() {
        "lang": "C",
        "name": "0-9",
        "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "1","2","3","4","5","6","7","8","9","0"
        ]
@@ -325,7 +336,7 @@ function getScenarioList() {
        "id": "A-Z 0-9",
        "lang": "C",
        "name": "A-Z 0-9 (Alphabet & Number)",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
          "1","2","3","4","5","6","7","8","9","0"
@@ -335,7 +346,7 @@ function getScenarioList() {
        "id": "ア行",
        "lang": "ja",
        "name": "ア行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ア","イ","ウ","エ","オ"
        ]
@@ -344,7 +355,7 @@ function getScenarioList() {
        "id": "カ行",
        "lang": "ja",
        "name": "カ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "カ","キ","ク","ケ","コ"
        ]
@@ -353,7 +364,7 @@ function getScenarioList() {
        "id": "サ行",
        "lang": "ja",
        "name": "サ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "サ","シ","ス","セ","ソ"
        ]
@@ -362,7 +373,7 @@ function getScenarioList() {
        "id": "タ行",
        "lang": "ja",
        "name": "タ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "タ","チ","ツ","テ","ト"
        ]
@@ -371,7 +382,7 @@ function getScenarioList() {
        "id": "ナ行",
        "lang": "ja",
        "name": "ナ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ナ","ニ","ヌ","ネ","ノ"
        ]
@@ -380,7 +391,7 @@ function getScenarioList() {
        "id": "ハ行",
        "lang": "ja",
        "name": "ハ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ハ","ヒ","フ","ヘ","ホ"
        ]
@@ -389,7 +400,7 @@ function getScenarioList() {
        "id": "パ行",
        "lang": "ja",
        "name": "パ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "パ","ピ","プ","ペ","ポ"
        ]
@@ -398,7 +409,7 @@ function getScenarioList() {
        "id": "マ行",
        "lang": "ja",
        "name": "マ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "マ","ミ","ム","メ","モ"
        ]
@@ -407,7 +418,7 @@ function getScenarioList() {
        "id": "ヤ行",
        "lang": "ja",
        "name": "ヤ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ヤ","ユ","ヨ"
        ]
@@ -416,7 +427,7 @@ function getScenarioList() {
        "id": "ラ行",
        "lang": "ja",
        "name": "ラ行",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ラ","リ","ル","レ","ロ"
        ]
@@ -425,7 +436,7 @@ function getScenarioList() {
        "id": "ワ行ン",
        "lang": "ja",
        "name": "ワ行ン",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ワ","ヰ","ヱ","ヲ","ン"
        ]
@@ -434,7 +445,7 @@ function getScenarioList() {
        "id": "ー、¶（）",
        "lang": "ja",
        "name": "ー、。（）",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ー","、","¶","（","）"
        ]
@@ -443,7 +454,7 @@ function getScenarioList() {
        "id": "ア段",
        "lang": "ja",
        "name": "ア段",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ア","カ","ガ","サ","ザ","タ","ダ","ナ","ハ","バ","パ","マ","ヤ","ラ","ワ"
        ]
@@ -452,7 +463,7 @@ function getScenarioList() {
        "id": "イ段",
        "lang": "ja",
        "name": "イ段",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "イ","キ","ギ","シ","ジ","チ","ヂ","ニ","ヒ","ビ","ピ","ミ","リ","ヰ"
        ]
@@ -461,7 +472,7 @@ function getScenarioList() {
        "id": "ウ段",
        "lang": "ja",
        "name": "ウ段+ン",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ウ","ク","グ","ス","ズ","ツ","ヅ","ヌ","フ","ブ","プ","ム","ユ","ル","ン"
        ]
@@ -470,7 +481,7 @@ function getScenarioList() {
        "id": "エ段",
        "lang": "ja",
        "name": "エ段",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "エ","ケ","ゲ","セ","ゼ","テ","デ","ネ","ヘ","ベ","ペ","メ","レ","ヱ"
        ]
@@ -479,7 +490,7 @@ function getScenarioList() {
        "id": "オ段",
        "lang": "ja",
        "name": "オ段",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "オ","コ","ゴ","ソ","ゾ","ト","ド","ノ","ホ","ボ","ポ","モ","ヨ","ロ","ヲ"
        ]
@@ -488,7 +499,7 @@ function getScenarioList() {
        "id": "ア-ン",
        "lang": "ja",
        "name": "ア-ン (和文全体)",
-       "randam": false,
+       "interval_skip": 5,
        "phrases": [
          "ア","イ","ウ","エ","オ",
          "カ","キ","ク","ケ","コ",
