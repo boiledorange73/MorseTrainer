@@ -11,3 +11,4 @@ on your device.
 
 A sample of scenarios.json is available at the root directory of this project tree.
 
+Notice that scenario.json will overwrite the default, not be added.
